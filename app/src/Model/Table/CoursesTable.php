@@ -55,24 +55,24 @@ class CoursesTable extends Table
         $validator
             ->scalar('name')
             ->maxLength('name', 255)
-            ->requirePresence('name', 'create')
-            ->notEmptyString('name');
+            ->requirePresence('name', true)
+            ->notEmptyString('name', 'Debe completar este campo');
 
         $validator
             ->scalar('description')
             ->allowEmptyString('description');
 
         $validator
-            ->dateTime('start_date')
-            ->allowEmptyDateTime('start_date');
+            ->date('start_date', ['ymd'], 'Debe ingresar una fecha válida')
+            ->allowEmptyDate('start_date');
 
         $validator
-            ->dateTime('end_date')
-            ->allowEmptyDateTime('end_date');
+        ->date('end_date', ['ymd'], 'Debe ingresar una fecha válida')
+        ->allowEmptyDate('end_date');
 
         $validator
-            ->requirePresence('is_enabled', 'create')
-            ->notEmptyString('is_enabled');
+            ->requirePresence('is_enabled', true)
+            ->allowEmptyString('is_enabled', null, true);
 
         $validator
             ->dateTime('create_at')
@@ -83,5 +83,18 @@ class CoursesTable extends Table
             ->allowEmptyDateTime('delete_at');
 
         return $validator;
+    }
+
+
+    /**
+     * Clean fields
+     */
+    public function beforeMarshal($event, $data, $options)
+    {
+        foreach ($data as $key => $value) {
+            if (is_string($value)) {
+                $data[$key] = trim($value);
+            }
+        }
     }
 }

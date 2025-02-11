@@ -23,11 +23,13 @@ use Cake\Core\Configure;
         'label' => 'Fecha de inicio',
         'class' => $course->getError('start_date') ? 'form-control is-invalid' : 'form-control',
         'type' => 'date',
+        'value' => (!empty($course->start_date)) ? date('Y-m-d', strtotime($course->start_date)) : '',
         ]) ?>
     <?= $this->Form->control('end_date', [
         'label' => 'Fecha de término',
         'class' => $course->getError('end_date') ? 'form-control is-invalid' : 'form-control',
-        'type' => 'date'
+        'type' => 'date',
+        'value' => (!empty($course->start_date)) ? date('Y-m-d', strtotime($course->end_date)) : '',
         ]) ?>
     <?= $this->Form->control('is_enabled', [
         'label' => 'Habilitado', 
