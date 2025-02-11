@@ -95,7 +95,9 @@ class CoursesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $course = $this->Courses->get($id);
-        if ($this->Courses->delete($course)) {
+        date_default_timezone_set('America/Santiago');
+        $course->delete_at = date("Y-m-d H:i:s");
+        if ($this->Courses->save($course)) {
             $this->Flash->success('El curso ha sido eliminado');
         } else {
             $this->Flash->error('El curso no se ha podido eliminar, por favor intente nuevamente');

@@ -97,4 +97,13 @@ class CoursesTable extends Table
             }
         }
     }
+
+
+    /**
+     * Search only records that are not deleted
+     */
+    public function beforeFind($event, $query, $options, $primary)
+    {
+        $query->where(['delete_at IS' => null]);
+    }
 }
