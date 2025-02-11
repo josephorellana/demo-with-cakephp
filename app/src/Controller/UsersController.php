@@ -100,7 +100,9 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
+        date_default_timezone_set('America/Santiago');
+        $user->delete_at = date("Y-m-d H:i:s");
+        if ($this->Users->save($user)) {
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
