@@ -51,5 +51,41 @@ class AppController extends Controller
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password'
+                    ],
+                    'finder' => 'auth'
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Auth',
+                'action' => 'login'
+            ],
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'home'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Auth',
+                'action' => 'login'
+            ],
+            'unauthorizedRedirect' => $this->referer()
+        ]);
+        
+        // Permitir acceso a login y logout sin autenticación
+        $this->Auth->allow(['login']);
+    }
+
+    public function beforeRender($event)
+    {
+        parent::beforeRender($event);
+        if ($this->Auth->user()) {
+            $this->set('authUser', $this->Auth->user());
+        }
     }
 }

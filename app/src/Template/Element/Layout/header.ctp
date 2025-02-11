@@ -4,6 +4,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="btn btn-outline-light" href="#">Cerrar sesión</a>
+        <p class="mb-0 ms-auto me-3 text-end welcome-text">Hola <?= h($authUser['name']) ?></p>
+        <?= $this->Html->link('Cerrar sesión', ['controller' => 'Auth', 'action' => 'logout'], ['class' => 'btn btn-outline-light']) ?>
     </div>
 </nav>

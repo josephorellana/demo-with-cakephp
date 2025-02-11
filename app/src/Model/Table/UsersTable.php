@@ -143,4 +143,13 @@ class UsersTable extends Table
         }
     }
 
+
+    public function findAuth(\Cake\ORM\Query $query, array $options)
+    {
+        return $query->select([
+            'Users.id', 'Users.email', 'Users.name', 'Users.password', 'Roles.name'
+        ])
+        ->contain(['Roles']);
+    }
+
 }

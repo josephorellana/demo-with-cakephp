@@ -27,6 +27,10 @@ body {
     text-align: center;
 }
 
+.welcome-text {
+    color: #f8f9fa;
+}
+
 @media (max-width: 768px) {
     #sidebar {
         display: none;
