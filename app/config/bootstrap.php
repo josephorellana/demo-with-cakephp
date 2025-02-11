@@ -201,3 +201,26 @@ Type::build('timestamp')
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
+
+
+/**
+ * Custom templates for the application
+ */
+Configure::write('templates', [
+    'form' => [
+        'formGroup' => '{{label}}{{input}}{{error}}{{help}}',
+        'label' => '<label class="form-label" {{attrs}}>{{text}}</label>',
+        'input' => '<input type="{{type}}" name="{{name}}" class="form-control{{class}}" {{attrs}}/>',
+        'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}" class="form-check-input" {{attrs}}/>',
+        'checkboxFormGroup' => '<div class="form-check">{{input}}{{label}}</div>',
+        'radio' => '<input type="radio" name="{{name}}" value="{{value}}" class="form-check-input" {{attrs}}/>',
+        'radioWrapper' => '<div class="form-check">{{input}}{{label}}</div>',
+        'select' => '<select name="{{name}}" class="form-select{{class}}" {{attrs}}>{{content}}</select>',
+        'textarea' => '<textarea name="{{name}}" class="form-control{{class}}" {{attrs}}>{{value}}</textarea>',
+        'error' => '<div class="invalid-feedback">{{content}}</div>',
+        'inputContainer' => '<div class="mb-3 {{required}}">{{content}}</div>',
+        'inputContainerError' => '<div class="mb-3 {{required}} has-error">{{content}}</div>',
+        'submitContainer' => '<div class="mt-3">{{content}}</div>',
+        'help' => '<small class="form-text text-muted">{{content}}</small>'
+    ]
+]);

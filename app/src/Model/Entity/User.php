@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * User Entity
@@ -55,4 +56,24 @@ class User extends Entity
     protected $_hidden = [
         'password',
     ];
+
+
+    /**
+     * Save password encrypted
+     */
+    protected function _setPassword( $value )
+    {
+        $hasher = new DefaultPasswordHasher();
+        return $hasher->hash($value);
+    }
+
+    
+    /**
+     * Save create_at in Chile time zone
+     */
+    protected function _setCreateAt( $value )
+    {
+        date_default_timezone_set('America/Santiago');
+        return date("Y-m-d H:i:s");
+    }
 }
