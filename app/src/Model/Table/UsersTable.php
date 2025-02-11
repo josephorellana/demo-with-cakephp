@@ -59,33 +59,33 @@ class UsersTable extends Table
 
         $validator
             ->scalar('name')
-            ->maxLength('name', 100)
-            ->requirePresence('name', 'create')
-            ->notEmptyString('name');
+            ->maxLength('name', 100, 'El Nombre es demasiado largo')
+            ->requirePresence('name', 'Debe completar este campo', 'create')
+            ->notEmptyString('name', 'Este campo no puede estar vacío');
 
         $validator
             ->scalar('paternal_last_name')
-            ->maxLength('paternal_last_name', 50)
-            ->requirePresence('paternal_last_name', 'create')
-            ->notEmptyString('paternal_last_name');
+            ->maxLength('paternal_last_name', 50, 'El Apellido es demasiado largo')
+            ->requirePresence('paternal_last_name', 'Debe completar este campo', 'create')
+            ->notEmptyString('paternal_last_name', 'Este campo no puede estar vacío');
 
         $validator
             ->scalar('maternal_last_name')
-            ->maxLength('maternal_last_name', 50)
-            ->allowEmptyString('maternal_last_name');
+            ->maxLength('maternal_last_name', 50, 'El Apellido es demasiado largo')
+            ->allowEmptyString('maternal_last_name', null, true);
 
         $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmptyString('email')
+            ->email('email', 'Debe ingresar un correo válido')
+            ->requirePresence('email', 'Debe completar este campo', 'create')
+            ->notEmptyString('email', 'Este campo no puede estar vacío')
             ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('password')
             ->maxLength('password', 255)
-            ->requirePresence('password', 'create')
-            ->notEmptyString('password', 'create')
-            ->allowEmptyString('password', 'edit');
+            ->requirePresence('password', 'Debe completar este campo', 'create')
+            ->notEmptyString('password', 'Este campo no puede estar vacío', 'create')
+            ->allowEmptyString('password', null, 'update');
 
         $validator
             ->requirePresence('is_active', 'create')
@@ -102,6 +102,10 @@ class UsersTable extends Table
         $validator
             ->dateTime('delete_at')
             ->allowEmptyDateTime('delete_at');
+        
+        $validator
+            ->requirePresence('role_id', 'Debe seleccionar un rol')
+            ->notEmptyString('role_id', 'Debe seleccionar un rol');
 
         return $validator;
     }
@@ -128,6 +132,15 @@ class UsersTable extends Table
     public function beforeFind($event, $query, $options, $primary)
     {
         $query->where(['delete_at IS' => null]);
+    }
+
+    public function beforeMarshal($event, $data, $options)
+    {
+        foreach ($data as $key => $value) {
+            if (is_string($value)) {
+                $data[$key] = trim($value);
+            }
+        }
     }
 
 }

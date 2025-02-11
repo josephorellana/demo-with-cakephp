@@ -54,11 +54,11 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success('El usuario ha sido creado con éxito');
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error('No se ha podido crear el usuario, por favor intente nuevamente.');
         }
         $roles = $this->Users->Roles->find('list', ['limit' => 200]);
         $this->set(compact('user', 'roles'));
@@ -79,11 +79,11 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success('El usuario ha sido editado.');
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error('El usuario no se pudo guardar, por favor intente nuevamente.');
         }
         $roles = $this->Users->Roles->find('list', ['limit' => 200]);
         $this->set(compact('user', 'roles'));
@@ -103,9 +103,9 @@ class UsersController extends AppController
         date_default_timezone_set('America/Santiago');
         $user->delete_at = date("Y-m-d H:i:s");
         if ($this->Users->save($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
+            $this->Flash->success('El usuario ha sido eliminado');
         } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            $this->Flash->error('No se pudo eliminar el usuario, por favor intente nuevamente');
         }
 
         return $this->redirect(['action' => 'index']);
