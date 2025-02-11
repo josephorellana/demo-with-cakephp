@@ -21,7 +21,7 @@
                                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                                 <th scope="col"><?= $this->Paginator->sort('start_date') ?></th>
                                 <th scope="col"><?= $this->Paginator->sort('end_date') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('is_active') ?></th>
+                                <th scope="col"><?= $this->Paginator->sort('is_enabled') ?></th>
                                 <th scope="col" class="actions"><?= __('Actions') ?></th>
                             </tr>
                         </thead>
@@ -31,7 +31,7 @@
                                 <td><?= h($course->name) ?></td>
                                 <td><?= (!empty($course->start_date)) ? h($course->start_date) : '-' ?></td>
                                 <td><?= (!empty($course->end_date)) ? h($course->end_date) : '-' ?></td>
-                                <td><?= ($course->is_active) ? '<span class="badge text-bg-success">Activo</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
+                                <td><?= ($course->is_enabled) ? '<span class="badge text-bg-success">Habilitado</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(
                                         '<i class="bi bi-eye"></i>',
