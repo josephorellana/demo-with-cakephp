@@ -38,4 +38,14 @@ class Course extends Entity
         'delete_at' => true,
         'enrollments' => true,
     ];
+
+
+    /**
+     * Save create_at in Chile time zone
+     */
+    protected function _setCreateAt( $value )
+    {
+        date_default_timezone_set('America/Santiago');
+        return date("Y-m-d H:i:s");
+    }
 }
