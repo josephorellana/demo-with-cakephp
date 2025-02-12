@@ -62,6 +62,7 @@ class AppController extends Controller
                     'finder' => 'auth'
                 ]
             ],
+            'authorize' => ['Controller'],
             'loginAction' => [
                 'controller' => 'Auth',
                 'action' => 'login'
@@ -80,11 +81,22 @@ class AppController extends Controller
         $this->Auth->allow(['login', 'logout']);
     }
 
+
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
         if ($this->components()->has('Auth') && $this->Auth->user()) {
             $this->set('authUser', $this->Auth->user());
         }
+    }
+
+
+    public function isAuthorized($user)
+    {
+        if ( !empty($user['role']['name']) && $user['role']['name'] === 'ADMIN' )
+        {
+            return true;
+        }
+        return false;
     }
 }
