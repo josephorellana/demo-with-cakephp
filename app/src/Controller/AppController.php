@@ -77,8 +77,7 @@ class AppController extends Controller
             'unauthorizedRedirect' => $this->referer()
         ]);
         
-        // Permitir acceso a login y logout sin autenticación
-        $this->Auth->allow(['login']);
+        $this->Auth->allow(['login', 'logout']);
     }
 
     public function beforeRender(Event $event)
