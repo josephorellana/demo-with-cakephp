@@ -48,7 +48,7 @@
                         <?= $this->Form->postLink(
                             '<i class="bi bi-trash"></i>', 
                             ['action' => 'delete', $user->id], 
-                            ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'btn btn-sm btn-danger', 'title' => 'Eliminar', 'escape' => false]
+                            ['confirm' => __('¿Estás segurto que deseas eliminar el usuario {0} {1}?', $user->name, $user->paternal_last_name), 'class' => 'btn btn-sm btn-danger', 'title' => 'Eliminar', 'escape' => false]
                             ) ?>
                     </td>
                 </tr>
