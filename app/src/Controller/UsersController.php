@@ -151,4 +151,36 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index'] + $queryParams);
     }
 
+
+    public function searchStudent()
+    {
+        $this->autoRender = false;
+
+        if ($this->request->is('ajax')) {
+            $query = $this->request->getQuery('search');
+
+            $this->loadModel('Users');
+            $users = $this->Users->find('all', [
+                'contain' => ['Roles'],
+                'conditions' => [
+                            'AND' => [
+                                'OR' => [
+                                    'Users.name LIKE' => '%' . $query . '%',
+                                    'Users.paternal_last_name LIKE' => '%' . $query . '%',
+                                    'Users.maternal_last_name LIKE' => '%' . $query . '%',
+                                    'Users.email LIKE' => '%' . $query . '%'
+                                ],
+                                'Users.delete_at IS' => null,
+                                'Users.is_active' => 1,
+                                'Roles.name' => 'USER'
+                            ]
+                        ]
+            ])->toArray();
+
+            return $this->response
+                ->withType('application/json')
+                ->withStringBody(json_encode($users));
+        }
+    }
+
 }

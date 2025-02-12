@@ -28,6 +28,11 @@
     </div>
     <div class="related">
         <h4>Inscritos</h4>
+        <div class="dropdown">
+            <input type="text" id="student-search" class="form-control" placeholder="Agregar estudiante: Ingrese nombre, apellido o correo electrónico" autocomplete="off">
+            <ul class="dropdown-menu w-100" id="student-search-result"></ul>
+        </div>
+
         <?php if (!empty($course->enrollments)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
@@ -55,5 +60,47 @@
     </div>
 </section>
 
+<script>
+$(document).ready(function() {
+    const csrfToken = $('meta[name="csrfToken"]').attr('content');
 
+    $('#student-search').on('keyup', function() {
+        const query = $(this).val();
+        if (query.length > 2) {
+            $.ajax({
+                url: "<?= $this->Url->build(['controller' => 'Users', 'action' => 'searchStudent']) ?>",
+                type: "GET",
+                data: { search: query },
+                dataType: "json",
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                success: function(data) {
+                    let html = '';
+                    if (data.length > 0) {
+                        data.forEach(function(user) {
+                            html += `<li><div class="row"><div class="col"><a class="dropdown-item disabled" href="#">${user.name} ${user.paternal_last_name} ${user.maternal_last_name}</a></div><div class="col text-end"><button class="btn btn-sm btn-success enroll-user me-3" data-id="${user.id}"><i class="bi bi-plus"></i> Agregar</button></div></div></li>`;
+                        });
+                    } else {
+                        html += '<li><a class="dropdown-item disabled" href="#">No se encontraron resultados</a></li>';
+                    }
+                    $('#student-search-result').html(html).addClass('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en AJAX:", status, error);
+                }
+            });
+        } else {
+            $('#student-search-result').html('').removeClass('show');
+        }
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown').length) {
+            $('#student-search-result').removeClass('show');
+            $('#student-search').val('');
+        }
+    });
+});
+</script>
 
