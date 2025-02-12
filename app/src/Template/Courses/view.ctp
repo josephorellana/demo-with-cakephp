@@ -26,32 +26,38 @@
         <h4>Descripción</h4>
         <?= $this->Text->autoParagraph(h($course->description)); ?>
     </div>
+    <hr>
     <div class="related">
-        <h4>Inscritos</h4>
-        <div class="dropdown">
+        <h4>Estudiantes inscritos</h4>
+        <div class="dropdown mb-3">
             <input type="text" id="student-search" class="form-control" placeholder="Agregar estudiante: Ingrese nombre, apellido o correo electrónico" autocomplete="off">
             <ul class="dropdown-menu w-100" id="student-search-result"></ul>
         </div>
 
         <?php if (!empty($course->enrollments)): ?>
-        <table cellpadding="0" cellspacing="0">
+        <table class="table table-hover table-striped">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Create At') ?></th>
-                <th scope="col"><?= __('User Id') ?></th>
-                <th scope="col"><?= __('Course Id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido paterno</th>
+                <th scope="col">Apellido materno</th>
+                <th scope="col" class="actions">Acciones</th>
             </tr>
-            <?php foreach ($course->enrollments as $enrollments): ?>
+            <?php foreach ($course->enrollments as $enrollment): ?>
             <tr>
-                <td><?= h($enrollments->id) ?></td>
-                <td><?= h($enrollments->create_at) ?></td>
-                <td><?= h($enrollments->user_id) ?></td>
-                <td><?= h($enrollments->course_id) ?></td>
+                <td><?= h($enrollment->user->name) ?></td>
+                <td><?= h($enrollment->user->paternal_last_name) ?></td>
+                <td><?= h($enrollment->user->maternal_last_name) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Enrollments', 'action' => 'view', $enrollments->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Enrollments', 'action' => 'edit', $enrollments->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Enrollments', 'action' => 'delete', $enrollments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $enrollments->id)]) ?>
+                    <?= $this->Html->link(
+                        '<i class="bi bi-eye"></i>',
+                        ['controller' => 'Users', 'action' => 'view', $enrollment->user->id],
+                        ['class' => 'btn btn-sm btn-primary', 'title' => 'Ver', 'escape' => false]
+                        ) ?>
+                    <?= $this->Form->postLink(
+                        '<i class="bi bi-trash"></i>', 
+                        ['controller' => 'Courses', 'action' => 'deleteEnrollment', $enrollment->user->id], 
+                        ['confirm' => __('¿Está seguro que desa quitar a {0} {1} de este curso?', $enrollment->user->name, $enrollment->user->paternal_last_name), 'class' => 'btn btn-sm btn-danger', 'title' => 'Eliminar', 'escape' => false]
+                        ) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
