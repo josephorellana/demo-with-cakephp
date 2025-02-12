@@ -121,7 +121,7 @@ class UsersController extends AppController
         $role = $this->Auth->user()['role']['name'];
         $coursesTable = TableRegistry::get('Courses');
 
-        if( $role == 'ADMIN' )
+        if( $role === 'ADMIN' )
         {
             $courses = $coursesTable->find('all', [
                 'contain' => ['Enrollments'],
@@ -149,6 +149,23 @@ class UsersController extends AppController
             $totalEnrollments = $enrollments->count();
 
             $this->set(compact('courses', 'totalCourses', 'totalStudents','totalEnrollments'));
+        }
+
+        if( $role === 'USER' )
+        {
+            $enrollmentsTable = TableRegistry::get('Enrollments');
+            $id = $this->Auth->user()['id'];
+            $enrollments = $enrollmentsTable
+                                ->find('all')
+                                ->contain(['Courses'])
+                                ->where([
+                                    'AND' => [
+                                        'Enrollments.user_id' => $id,
+                                        'Courses.delete_at IS' => null,
+                                        'Courses.is_enabled' => 1
+                                    ]
+                                ]);
+            $this->set(compact('enrollments'));
         }
     }
 
