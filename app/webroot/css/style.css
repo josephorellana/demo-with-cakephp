@@ -31,6 +31,57 @@ body {
     color: #f8f9fa;
 }
 
+.course-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+}
+.course-card:hover {
+    transform: scale(1.05);
+    background-color: #e9ecef;
+}
+.course-card h5 a {
+    text-decoration: none;
+    color: #007bff;
+}
+.course-card h5 a:hover {
+    text-decoration: underline;
+}
+
+.indicator-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    text-align: right;
+    height: 100%;
+}
+.indicator-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+.indicator-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.indicator-icon {
+    font-size: 1.5rem;
+    color: #6c757d;
+}
+
 @media (max-width: 768px) {
     #sidebar {
         display: none;

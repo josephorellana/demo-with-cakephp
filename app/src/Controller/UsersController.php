@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -117,7 +118,38 @@ class UsersController extends AppController
 
     public function home()
     {
-        return $this->render();
+        $role = $this->Auth->user()['role']['name'];
+        $coursesTable = TableRegistry::get('Courses');
+
+        if( $role == 'ADMIN' )
+        {
+            $courses = $coursesTable->find('all', [
+                'contain' => ['Enrollments'],
+                'conditions' => [
+                    'AND' => [
+                        'delete_at IS' => null,
+                        'is_enabled' => 1
+                    ]
+                ]
+            ]);
+            $totalCourses = $courses->count();
+            $students = $this->Users->find('all', [
+                'contain' => ['Roles'],
+                'conditions' => [
+                    'AND' => [
+                        'Users.delete_at IS' => null,
+                        'Users.is_active' => 1,
+                        'Roles.name' => 'USER'
+                    ]
+                ]
+            ]);
+            $totalStudents = $students->count();
+            $enrollmentsTable = TableRegistry::get('Enrollments');
+            $enrollments = $enrollmentsTable->find('all');
+            $totalEnrollments = $enrollments->count();
+
+            $this->set(compact('courses', 'totalCourses', 'totalStudents','totalEnrollments'));
+        }
     }
 
 
