@@ -12,6 +12,20 @@ class AuthController extends AppController
         $this->Auth->allow(['login']);
     }
 
+
+    public function isAuthorized($user)
+    {
+        if ( !empty($user['role']['name']) && $user['role']['name'] === 'USER' )
+        {
+            if ( in_array($this->request->getParam('action'), ['logout']) )
+            {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
+    }
+
     public function login()
     {
         $this->viewBuilder()->setLayout('login');
