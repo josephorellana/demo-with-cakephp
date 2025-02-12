@@ -48,7 +48,7 @@ $cakeDescription = 'Demo with CakePHP: ';
     </main>
     <?= $this->element('Layout/footer') ?>
     
-    <?= $this->Html->script("bootstrap.min.js"); ?>
+    <?= $this->Html->script("bootstrap.bundle.min.js"); ?>
     <?= $this->Html->script("app.js"); ?>
 
 </body>
