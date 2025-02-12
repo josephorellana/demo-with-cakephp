@@ -10,12 +10,12 @@
             <td class="actions">
             <?= $this->Html->link(
                 '<i class="bi bi-eye"></i>',
-                ['controller' => 'Course', 'action' => 'view', $enrollment->course->id],
+                ['controller' => 'Courses', 'action' => 'view', $enrollment->course->id],
                 ['class' => 'btn btn-sm btn-primary', 'title' => 'Ver', 'escape' => false]
                 ) ?>
             <?= $this->Form->postLink(
                 '<i class="bi bi-trash"></i>', 
-                ['controller' => 'Courses', 'action' => 'deleteEnrollment', 'userId' => $user->id, 'courseId' => $enrollment->course->id], 
+                ['controller' => 'Courses', 'action' => 'deleteEnrollment', 'userId' => $user->id, 'courseId' => $enrollment->course->id, 'fromUser' => true], 
                 ['confirm' => __('¿Está seguro que desa quitar el curso {0}?', $enrollment->course->name), 'class' => 'btn btn-sm btn-danger', 'title' => 'Eliminar', 'escape' => false]
                 ) ?>
             </td>

@@ -214,6 +214,11 @@ class CoursesController extends AppController
             $this->Flash->error('La inscripción no se ha podido eliminar, por favor intente nuevamente');
         }
 
+        $fromUser = $this->request->getQuery('fromUser');
+        if( $fromUser )
+        {
+            return $this->redirect(['controller' => 'Users', 'action' => 'view', $userId]);
+        }
         return $this->redirect(['action' => 'view', $courseId]);
     }
 
