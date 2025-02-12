@@ -13,6 +13,20 @@ use Cake\ORM\TableRegistry;
  */
 class CoursesController extends AppController
 {
+    public function isAuthorized($user)
+    {
+        if ( !empty($user['role']['name']) && $user['role']['name'] === 'USER' )
+        {
+            if ( in_array($this->request->getParam('action'), ['view']) )
+            {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
+    }
+
+
     /**
      * Index method
      *
