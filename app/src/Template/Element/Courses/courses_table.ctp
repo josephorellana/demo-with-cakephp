@@ -18,21 +18,21 @@
         <table cellpadding="0" cellspacing="0" class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('start_date') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('end_date') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('is_enabled') ?></th>
-                    <th scope="col" class="actions"><?= __('Actions') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('name', 'Curso') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('start_date', 'Fecha de inicio') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('end_date', 'Fecha de término') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('is_enabled', 'Habilitado') ?></th>
+                    <th scope="col" class="actions text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($courses as $course): ?>
                 <tr>
                     <td><?= h($course->name) ?></td>
-                    <td><?= (!empty($course->start_date)) ? date('d-m-Y', strtotime($course->start_date)) : '-' ?></td>
-                    <td><?= (!empty($course->end_date)) ? date('d-m-Y', strtotime($course->end_date)) : '-' ?></td>
-                    <td><?= ($course->is_enabled) ? '<span class="badge text-bg-success">Habilitado</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
-                    <td class="actions">
+                    <td class="text-center"><?= (!empty($course->start_date)) ? date('d-m-Y', strtotime($course->start_date)) : '-' ?></td>
+                    <td class="text-center"><?= (!empty($course->end_date)) ? date('d-m-Y', strtotime($course->end_date)) : '-' ?></td>
+                    <td class="text-center"><?= ($course->is_enabled) ? '<span class="badge text-bg-success">Habilitado</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
+                    <td class="actions text-center">
                         <?= $this->Html->link(
                             '<i class="bi bi-eye"></i>',
                             ['action' => 'view', $course->id],

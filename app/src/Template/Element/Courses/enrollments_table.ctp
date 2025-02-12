@@ -5,7 +5,7 @@
             <th scope="col">Apellido paterno</th>
             <th scope="col">Apellido materno</th>
             <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
-                <th scope="col" class="actions">Acciones</th>
+                <th scope="col" class="actions text-center">Acciones</th>
             <?php endif; ?>
         </tr>
         <?php foreach ($course->enrollments as $enrollment): ?>
@@ -14,7 +14,7 @@
             <td><?= h($enrollment->user->paternal_last_name) ?></td>
             <td><?= h($enrollment->user->maternal_last_name) ?></td>
             <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
-                <td class="actions">
+                <td class="actions text-center">
                     <?= $this->Html->link(
                         '<i class="bi bi-eye"></i>',
                         ['controller' => 'Users', 'action' => 'view', $enrollment->user->id],

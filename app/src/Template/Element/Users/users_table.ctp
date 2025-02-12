@@ -18,12 +18,12 @@
         <table cellpadding="0" cellspacing="0" class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('paternal_last_name') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('maternal_last_name') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                    <th scope="col"><?= $this->Paginator->sort('is_active') ?></th>
-                    <th scope="col" class="actions"><?= __('Actions') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('name', 'Nombre') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('paternal_last_name', 'Apellido paterno') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('maternal_last_name', 'Apellido materno') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('email', 'Correo electrónico') ?></th>
+                    <th scope="col" class="text-center"><?= $this->Paginator->sort('is_active', 'Activo') ?></th>
+                    <th scope="col" class="actions text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,8 +33,8 @@
                     <td><?= h($user->paternal_last_name) ?></td>
                     <td><?= h($user->maternal_last_name) ?></td>
                     <td><?= h($user->email) ?></td>
-                    <td><?= ($user->is_active) ? '<span class="badge text-bg-success">Activo</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
-                    <td class="actions">
+                    <td class="text-center"><?= ($user->is_active) ? '<span class="badge text-bg-success">Activo</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
+                    <td class="actions text-center">
                         <?= $this->Html->link(
                             '<i class="bi bi-eye"></i>',
                             ['action' => 'view', $user->id],

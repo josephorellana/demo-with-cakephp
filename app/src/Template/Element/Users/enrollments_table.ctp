@@ -3,14 +3,14 @@
         <tr>
             <th scope="col">Curso</th>
             <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
-                <th scope="col" class="actions">Acciones</th>
+                <th scope="col" class="actions text-center">Acciones</th>
             <?php endif; ?>
         </tr>
         <?php foreach ($user->enrollments as $enrollment): ?>
         <tr>
             <td><?= h($enrollment->course->name) ?></td>
             <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
-                <td class="actions">
+                <td class="actions text-center">
                 <?= $this->Html->link(
                     '<i class="bi bi-eye"></i>',
                     ['controller' => 'Courses', 'action' => 'view', $enrollment->course->id],
