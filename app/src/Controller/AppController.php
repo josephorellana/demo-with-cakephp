@@ -81,10 +81,10 @@ class AppController extends Controller
         $this->Auth->allow(['login']);
     }
 
-    public function beforeRender($event)
+    public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
-        if ($this->Auth->user()) {
+        if ($this->components()->has('Auth') && $this->Auth->user()) {
             $this->set('authUser', $this->Auth->user());
         }
     }

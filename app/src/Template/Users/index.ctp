@@ -2,61 +2,49 @@
     <h1>Usuarios</h1>
 </section>
 
-<section class="section" id="ajax-load">
-    <div class="row" id="ajax-replace">
-            <div class="card card-primary">
-                <div class="card-header">
-
-                    <div class="row">
-                        <span class="col-8 text-start"><?= $this->Paginator->counter(['format' => __('Página {{page}} de {{pages}}, mostrando {{current}} de {{count}} registros.')]) ?></span>
-                        <div class="col-4 text-end">
-                        <?= $this->Html->link('<i class="bi bi-plus"></i> Agregar Usuario', ['controller' => 'Users', 'action' => 'add'], ['escape' => false, 'class' => 'btn btn-sm btn-success']) ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-block">
-                    <table cellpadding="0" cellspacing="0" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('paternal_last_name') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('maternal_last_name') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('is_active') ?></th>
-                                <th scope="col" class="actions"><?= __('Actions') ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($users as $user): ?>
-                            <tr>
-                                <td><?= h($user->name) ?></td>
-                                <td><?= h($user->paternal_last_name) ?></td>
-                                <td><?= h($user->maternal_last_name) ?></td>
-                                <td><?= h($user->email) ?></td>
-                                <td><?= ($user->is_active) ? '<span class="badge text-bg-success">Activo</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
-                                <td class="actions">
-                                    <?= $this->Html->link(
-                                        '<i class="bi bi-eye"></i>',
-                                        ['action' => 'view', $user->id],
-                                        ['class' => 'btn btn-sm btn-primary', 'title' => 'Ver', 'escape' => false]
-                                        ) ?>
-                                    <?= $this->Html->link(
-                                        '<i class="bi bi-pencil-square"></i>',
-                                        ['action' => 'edit', $user->id],
-                                        ['class' => 'btn btn-sm btn-warning', 'title' => 'Editar', 'escape' => false]
-                                        ) ?>
-                                    <?= $this->Form->postLink(
-                                        '<i class="bi bi-trash"></i>', 
-                                        ['action' => 'delete', $user->id], 
-                                        ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'btn btn-sm btn-danger', 'title' => 'Eliminar', 'escape' => false]
-                                        ) ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+<section>
+    <div class="container mb-3 px-0">
+        <div class="row px-0">
+            <div class="col-11 px-0 mx-0">
+                <input type="text" id="search-user" class="form-control mx-0" placeholder="Ingrese nombre, apellido o correo electrónico (ingrese al menos 3 caracteres)">
             </div>
-            <?= $this->element('pagination') ?>
+            <div class="col-1 text-center">
+                <i class="bi bi-search"></i>
+            </div>
+        </div>
     </div>
 </section>
+
+<section class="section" id="ajax-load">
+    <div class="row" id="ajax-replace">
+            <?= $this->element('Users/users_table') ?>
+    </div>
+</section>
+
+<script>
+$(document).ready(function() {
+    const csrfToken = $('meta[name="csrfToken"]').attr('content'); // Obtener el CSRF Token
+
+    $('#search-user').on('keyup', function() {
+        const query = $(this).val();
+
+        if( query.length > 2 || query.length < 1)
+        {
+            $.ajax({
+                url: "<?= $this->Url->build(['controller' => 'Users', 'action' => 'search']) ?>",
+                type: "GET",
+                data: { search: query },
+                headers: {
+                    'X-CSRF-Token': csrfToken // Enviar el token en los headers
+                },
+                success: function(response) {
+                    $('#ajax-replace').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en AJAX:", status, error);
+                }
+            });
+        }
+    });
+});
+</script>

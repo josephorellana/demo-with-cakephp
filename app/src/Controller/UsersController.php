@@ -116,4 +116,39 @@ class UsersController extends AppController
     {
         return $this->render();
     }
+
+
+    public function search()
+    {
+        if ($this->request->is('ajax')) {
+            $query = $this->request->getQuery('search');
+
+            $this->loadModel('Users'); 
+            if( strlen($query) == 0 )
+            {
+                $users = $this->paginate($this->Users);
+            }
+            else
+            {
+                $users = $this->Users->find('all', [
+                            'conditions' => [
+                                'OR' => [
+                                    'Users.name LIKE' => '%' . $query . '%',
+                                    'Users.paternal_last_name LIKE' => '%' . $query . '%',
+                                    'Users.maternal_last_name LIKE' => '%' . $query . '%',
+                                    'Users.email LIKE' => '%' . $query . '%'
+                                ]
+                            ]
+                        ]);
+            }
+            $totalUsers = $users->count();
+            $this->set(compact('users', 'totalUsers'));
+
+            return $this->render('/Element/Users/users_table');
+        }
+
+        $queryParams = $this->request->getQuery();
+        return $this->redirect(['action' => 'index'] + $queryParams);
+    }
+
 }

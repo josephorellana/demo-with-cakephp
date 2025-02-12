@@ -1,4 +1,4 @@
-<?php if ( $this->Paginator->params()['pageCount'] > 1 ): ?>
+<?php if ( !empty($this->Paginator->params()) && $this->Paginator->params()['pageCount'] > 1 ): ?>
     <?php
         $this->Paginator->setTemplates([
             'nextActive' => '<li class="page-item"><a class="page-link" href="{{url}}">{{text}}</a></li>',

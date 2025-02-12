@@ -20,6 +20,7 @@ $cakeDescription = 'Demo with CakePHP: ';
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrfToken" content="<?= $this->request->getAttribute('csrfToken') ?>">
     <title>
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
@@ -33,6 +34,7 @@ $cakeDescription = 'Demo with CakePHP: ';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <?= $this->Html->script("jquery.min.js"); ?>
 </head>
 <body>
     
@@ -45,7 +47,7 @@ $cakeDescription = 'Demo with CakePHP: ';
         </div>
     </main>
     <?= $this->element('Layout/footer') ?>
-
+    
     <?= $this->Html->script("bootstrap.min.js"); ?>
     <?= $this->Html->script("app.js"); ?>
 
