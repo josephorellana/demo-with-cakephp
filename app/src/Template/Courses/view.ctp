@@ -29,10 +29,13 @@
     <hr>
     <div class="related">
         <h4>Estudiantes inscritos</h4>
-        <div class="dropdown mb-3">
-            <input type="text" id="student-search" class="form-control" placeholder="Agregar estudiante: Ingrese nombre, apellido o correo electrónico" autocomplete="off">
-            <ul class="dropdown-menu w-100" id="student-search-result"></ul>
-        </div>
+
+        <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
+            <div class="dropdown mb-3">
+                <input type="text" id="student-search" class="form-control" placeholder="Agregar estudiante: Ingrese nombre, apellido o correo electrónico" autocomplete="off">
+                <ul class="dropdown-menu w-100" id="student-search-result"></ul>
+            </div>
+        <?php endif; ?>
 
         <div id="ajax-replace">
             <?= $this->element('Courses/enrollments_table') ?>
