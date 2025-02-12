@@ -8,8 +8,8 @@
             <div class="col-11 px-0 mx-0">
                 <input type="text" id="search-user" class="form-control mx-0" placeholder="Ingrese nombre, apellido o correo electrónico (ingrese al menos 3 caracteres)">
             </div>
-            <div class="col-1 text-center">
-                <i class="bi bi-search"></i>
+            <div class="col-1 text-center text-bg-success rounded-end py-0">
+                <i class="bi bi-search my-0 align-middle"></i>
             </div>
         </div>
     </div>
