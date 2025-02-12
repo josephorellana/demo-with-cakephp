@@ -207,7 +207,7 @@ class CoursesController extends AppController
                                 ]
                             ])
                             ->first();
-                            
+
         if ($enrollmentsTable->delete($enrollment)) {
             $this->Flash->success('La inscripción ha sido eliminada');
         } else {
@@ -215,5 +215,23 @@ class CoursesController extends AppController
         }
 
         return $this->redirect(['action' => 'view', $courseId]);
+    }
+
+    
+    public function getEnrollmentUsers()
+    {
+        if( $this->request->is('ajax') )
+        {
+            $id = $this->request->getQuery('id');
+            if( $id )
+            {
+                $course = $this->Courses->get($id, [
+                    'contain' => ['Enrollments' => ['Users']],
+                ]);
+        
+                $this->set('course', $course);
+            }
+            return $this->render('/Element/Courses/enrollments_table');
+        }
     }
 }
