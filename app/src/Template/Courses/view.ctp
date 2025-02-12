@@ -60,6 +60,14 @@
     </div>
 </section>
 
+<div class="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 p-2 mb-5 me-3" style="z-index: 9999;" role="alert" aria-live="assertive" aria-atomic="true" id="toast-message-enroll">
+    <div class="d-flex">
+        <div class="toast-body" id="toast-message-text-enroll">
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+
 <script>
 $(document).ready(function() {
     const csrfToken = $('meta[name="csrfToken"]').attr('content');
@@ -99,6 +107,41 @@ $(document).ready(function() {
         if (!$(e.target).closest('.dropdown').length) {
             $('#student-search-result').removeClass('show');
             $('#student-search').val('');
+        }
+    });
+
+    $(document).on('click', '.enroll-user', function(e){
+        const id = $(this).data('id');
+        if( id ) {
+            $.ajax({
+                url: "<?= $this->Url->build(['controller' => 'Courses', 'action' => 'enroll']) ?>",
+                type: "GET",
+                data: { 
+                    _csrfToken: csrfToken,
+                    userId: id,
+                    courseId: "<?= h($course->id) ?>"
+                 },
+                dataType: "json",
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                success: function(data) {
+                    if( data ) {
+                        let toast = $('#toast-message-enroll');
+                        $('#toast-message-text-enroll').text(data.message);
+                        toast.removeClass('text-bg-success');
+                        toast.removeClass('text-bg-danger');
+                        toast.addClass('text-bg-' + data.type);
+                        toast = document.getElementById('toast-message-enroll');
+                        if (toast) {
+                            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+                            toastBootstrap.show();
+                        }
+                        $('#student-search-result').removeClass('show');
+                        $('#student-search').val('');
+                    }
+                }
+            });
         }
     });
 });

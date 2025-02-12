@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Courses Controller
@@ -131,5 +132,61 @@ class CoursesController extends AppController
 
         $queryParams = $this->request->getQuery();
         return $this->redirect(['action' => 'index'] + $queryParams);
+    }
+
+
+    public function enroll()
+    {
+        $this->autoRender = false;
+        $message = [];
+
+        if($this->request->is('ajax'))
+        {
+            $userId = $this->request->getQuery('userId');
+            $courseId = $this->request->getQuery('courseId');
+            if( !empty($userId) && !empty($courseId) )
+            {
+                $message = [
+                    'type' => 'success',
+                    'message' => 'El estudiante se ha inscrito en el curso'
+                ];
+                $enrollmentsTable = TableRegistry::get('Enrollments');
+                $enrollment = $enrollmentsTable
+                                    ->find()
+                                    ->where([
+                                        'AND' => [
+                                            'Enrollments.user_id' => $userId,
+                                            'Enrollments.course_id' => $courseId
+                                        ]
+                                    ])
+                                    ->first();
+                if( empty($enrollment) )
+                {
+                    $enrollment = $enrollmentsTable->newEntity();
+                    $enrollment->user_id = $userId;
+                    $enrollment->course_id = $courseId;
+                    date_default_timezone_set('America/Santiago');
+                    $enrollment->create_at = date("Y-m-d H:i:s");
+                    if( !$enrollmentsTable->save($enrollment) )
+                    {
+                        $message = [
+                            'type' => 'danger',
+                            'message' => 'No se pudo inscribir el estudiante, intente nuevamente'
+                        ];
+                    }
+                }
+            }
+            else
+            {
+                $message = [
+                    'type' => 'danger',
+                    'message' => 'Error en la consulta, intente nuevamente'
+                ];
+            }
+        }
+
+        return $this->response
+                ->withType('application/json')
+                ->withStringBody(json_encode($message));
     }
 }
