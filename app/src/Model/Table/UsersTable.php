@@ -149,7 +149,13 @@ class UsersTable extends Table
         return $query->select([
             'Users.id', 'Users.email', 'Users.name', 'Users.password', 'Roles.name'
         ])
-        ->contain(['Roles']);
+        ->contain(['Roles'])
+        ->where([
+            'AND' => [
+                'Users.delete_at IS' => null,
+                'Users.is_active' => 1
+            ]
+        ]);
     }
 
 }
