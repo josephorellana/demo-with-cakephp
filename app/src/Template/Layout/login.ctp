@@ -12,5 +12,6 @@
     <?= $this->Flash->render() ?>
     <?= $this->fetch('content') ?>
     <?= $this->Html->script("bootstrap.min.js"); ?>
+    <?= $this->Html->script('app.js') ?>
 </body>
 </html>
