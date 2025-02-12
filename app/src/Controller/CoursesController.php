@@ -105,4 +105,31 @@ class CoursesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+
+    public function search()
+    {
+        if ($this->request->is('ajax')) {
+            $query = $this->request->getQuery('search');
+
+            $this->loadModel('Courses'); 
+            if( strlen($query) == 0 )
+            {
+                $courses = $this->paginate($this->Courses);
+            }
+            else
+            {
+                $courses = $this->Courses->find('all', [
+                            'conditions' => ['Courses.name LIKE' => '%' . $query . '%']
+                        ]);
+            }
+            $totalCourses = $courses->count();
+            $this->set(compact('courses', 'totalCourses'));
+
+            return $this->render('/Element/Courses/courses_table');
+        }
+
+        $queryParams = $this->request->getQuery();
+        return $this->redirect(['action' => 'index'] + $queryParams);
+    }
 }

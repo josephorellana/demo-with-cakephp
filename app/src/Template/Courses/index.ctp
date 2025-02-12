@@ -2,59 +2,49 @@
     <h1>Cursos</h1>
 </section>
 
-<section class="section" id="ajax-load">
-    <div class="row" id="ajax-replace">
-            <div class="card card-primary">
-                <div class="card-header">
-
-                    <div class="row">
-                        <span class="col-8 text-start"><?= $this->Paginator->counter(['format' => __('Página {{page}} de {{pages}}, mostrando {{current}} de {{count}} registros.')]) ?></span>
-                        <div class="col-4 text-end">
-                        <?= $this->Html->link('<i class="bi bi-plus"></i> Agregar Curso', ['controller' => 'Courses', 'action' => 'add'], ['escape' => false, 'class' => 'btn btn-sm btn-success']) ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-block">
-                    <table cellpadding="0" cellspacing="0" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('start_date') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('end_date') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('is_enabled') ?></th>
-                                <th scope="col" class="actions"><?= __('Actions') ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($courses as $course): ?>
-                            <tr>
-                                <td><?= h($course->name) ?></td>
-                                <td><?= (!empty($course->start_date)) ? date('d-m-Y', strtotime($course->start_date)) : '-' ?></td>
-                                <td><?= (!empty($course->end_date)) ? date('d-m-Y', strtotime($course->end_date)) : '-' ?></td>
-                                <td><?= ($course->is_enabled) ? '<span class="badge text-bg-success">Habilitado</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
-                                <td class="actions">
-                                    <?= $this->Html->link(
-                                        '<i class="bi bi-eye"></i>',
-                                        ['action' => 'view', $course->id],
-                                        ['class' => 'btn btn-sm btn-primary', 'title' => 'Ver', 'escape' => false]
-                                        ) ?>
-                                    <?= $this->Html->link(
-                                        '<i class="bi bi-pencil-square"></i>',
-                                        ['action' => 'edit', $course->id],
-                                        ['class' => 'btn btn-sm btn-warning', 'title' => 'Editar', 'escape' => false]
-                                        ) ?>
-                                    <?= $this->Form->postLink(
-                                        '<i class="bi bi-trash"></i>', 
-                                        ['action' => 'delete', $course->id], 
-                                        ['confirm' => __('Estás seguro que deseas eliminar el curso {0}?', $course->name), 'class' => 'btn btn-sm btn-danger', 'title' => 'Eliminar', 'escape' => false]
-                                        ) ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+<section>
+    <div class="container mb-3 px-0">
+        <div class="row px-0">
+            <div class="col-11 px-0 mx-0">
+                <input type="text" id="course-search" class="form-control mx-0" placeholder="Ingrese nombre del curso (ingrese al menos 3 caracteres)">
             </div>
-            <?= $this->element('pagination') ?>
+            <div class="col-1 text-center text-bg-success rounded-end py-0">
+                <i class="bi bi-search my-0 align-middle"></i>
+            </div>
+        </div>
     </div>
 </section>
+
+<section class="section" id="ajax-load">
+    <div class="row" id="ajax-replace">
+        <?= $this->element('Courses/courses_table') ?>
+    </div>
+</section>
+
+<script>
+$(document).ready(function() {
+    const csrfToken = $('meta[name="csrfToken"]').attr('content'); // Obtener el CSRF Token
+
+    $('#course-search').on('keyup', function() {
+        const query = $(this).val();
+
+        if( query.length > 2 || query.length < 1)
+        {
+            $.ajax({
+                url: "<?= $this->Url->build(['controller' => 'Courses', 'action' => 'search']) ?>",
+                type: "GET",
+                data: { search: query },
+                headers: {
+                    'X-CSRF-Token': csrfToken // Enviar el token en los headers
+                },
+                success: function(response) {
+                    $('#ajax-replace').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en AJAX:", status, error);
+                }
+            });
+        }
+    });
+});
+</script>
