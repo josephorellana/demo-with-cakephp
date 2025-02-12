@@ -88,8 +88,8 @@ class UsersTable extends Table
             ->allowEmptyString('password', null, 'update');
 
         $validator
-            ->requirePresence('is_active', 'create')
-            ->notEmptyString('is_active');
+            ->requirePresence('is_active', true)
+            ->allowEmptyString('is_active');
 
         $validator
             ->dateTime('create_at')
