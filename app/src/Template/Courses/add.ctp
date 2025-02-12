@@ -2,8 +2,9 @@
 use Cake\Core\Configure;
 ?>
 
-<section>
-    <h1>Agregar Curso</h1>
+<section class="mb-5 mt-3">
+    <h1>Agregar curso</h1>
+    <hr>
 </section>
 
 <section>
