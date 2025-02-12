@@ -2,8 +2,9 @@
 use Cake\Core\Configure;
 ?>
 
-<section>
-    <h1>Agregar Usuario</h1>
+<section class="mb-5 mt-3">
+    <h1>Agregar usuario</h1>
+    <hr>
 </section>
 
 <section>

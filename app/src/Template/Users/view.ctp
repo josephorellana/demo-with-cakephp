@@ -1,5 +1,6 @@
-<section>
+<section class="mb-5 mt-3">
     <h1>Detalles de usuario</h1>
+    <hr>
 </section>
 
 <section>
@@ -37,8 +38,15 @@
         <h4>Cursos inscritos</h4>
 
         <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
-        <div class="dropdown mb-3">
-            <input type="text" id="course-search" class="form-control" placeholder="Inscribir en curso: Ingrese nombre del curso" autocomplete="off">
+        <div class="dropdown mb-5">
+            <div class="row px-0">
+                <div class="col-11 px-0 mx-0">
+                    <input type="text" id="course-search" class="form-control mx-0" placeholder="Inscribir un curso: Ingrese nombre del curso" autocomplete="off">
+                </div>
+                <div class="col-1 text-center text-bg-success rounded-end py-0">
+                    <i class="bi bi-search my-0 align-middle"></i>
+                </div>
+            </div>
             <ul class="dropdown-menu w-100" id="course-search-result"></ul>
         </div>
         <?php endif; ?>

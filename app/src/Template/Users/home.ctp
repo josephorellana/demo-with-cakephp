@@ -1,3 +1,8 @@
+<section class="mb-5 mt-3">
+    <h1>Inicio</h1>
+    <hr>
+</section>
+
 <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
 <h4>Indicadores</h4>
 

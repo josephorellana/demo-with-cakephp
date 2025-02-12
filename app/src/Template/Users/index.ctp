@@ -1,5 +1,6 @@
-<section>
+<section class="mb-5 mt-3">
     <h1>Usuarios</h1>
+    <hr>
 </section>
 
 <section>

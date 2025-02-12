@@ -36,6 +36,11 @@ class UsersController extends AppController
     {
         $this->paginate = [
             'contain' => ['Roles'],
+            'order' => [
+                'Users.paternal_last_name' => 'asc',
+                'Users.maternal_last_name' => 'asc',
+                'Users.name' => 'asc',
+            ]
         ];
         $users = $this->paginate($this->Users);
 
