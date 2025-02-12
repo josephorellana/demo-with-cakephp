@@ -21,10 +21,12 @@
             <th scope="row">Correo electrónico</th>
             <td><?= h($user->email) ?></td>
         </tr>
+        <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
         <tr>
             <th scope="row">Rol</th>
-            <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td>
+            <td><?= $user->has('role') ? h($user->role->name) : '' ?></td>
         </tr>
+        <?php endif; ?>
         <tr>
             <th scope="row">Usuario activo</th>
             <td><?= ($user->is_active) ? '<span class="badge text-bg-success">Activo</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
@@ -33,10 +35,13 @@
     <hr>
     <div class="related">
         <h4>Cursos inscritos</h4>
+
+        <?php if( $authUser['role']['name'] === 'ADMIN' ): ?>
         <div class="dropdown mb-3">
             <input type="text" id="course-search" class="form-control" placeholder="Inscribir en curso: Ingrese nombre del curso" autocomplete="off">
             <ul class="dropdown-menu w-100" id="course-search-result"></ul>
         </div>
+        <?php endif; ?>
 
         <div id="ajax-replace">
             <?= $this->element('Users/enrollments_table') ?>
