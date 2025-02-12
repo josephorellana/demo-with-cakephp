@@ -189,4 +189,31 @@ class CoursesController extends AppController
                 ->withType('application/json')
                 ->withStringBody(json_encode($message));
     }
+
+
+    public function deleteEnrollment()
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $userId = $this->request->getQuery('userId');
+        $courseId = $this->request->getQuery('courseId');
+
+        $enrollmentsTable = TableRegistry::get('Enrollments');
+        $enrollment = $enrollmentsTable
+                            ->find()
+                            ->where([
+                                'AND' => [
+                                    'Enrollments.user_id' => $userId,
+                                    'Enrollments.course_id' => $courseId
+                                ]
+                            ])
+                            ->first();
+                            
+        if ($enrollmentsTable->delete($enrollment)) {
+            $this->Flash->success('La inscripción ha sido eliminada');
+        } else {
+            $this->Flash->error('La inscripción no se ha podido eliminar, por favor intente nuevamente');
+        }
+
+        return $this->redirect(['action' => 'view', $courseId]);
+    }
 }
