@@ -48,6 +48,23 @@ class CoursesController extends AppController
      */
     public function view($id = null)
     {
+        if( $this->Auth->user()['role']['name'] === 'USER' )
+        {
+            $enrollmentsTable = TableRegistry::get('Enrollments');
+            $enrollment = $enrollmentsTable
+                                ->find()
+                                ->where([
+                                    'AND' => [
+                                        'Enrollments.user_id' => $this->Auth->user()['id'],
+                                        'Enrollments.course_id' => $id
+                                    ]
+                                ])
+                                ->first();
+            if( empty($enrollment) )
+            {
+                return $this->redirect(['controller' => 'Users', 'action' => 'home']);
+            }
+        }
         $course = $this->Courses->get($id, [
             'contain' => ['Enrollments' => ['Users']],
         ]);

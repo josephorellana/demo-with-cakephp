@@ -51,6 +51,14 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        if( $this->Auth->user()['role']['name'] === 'USER' )
+        {
+            if( $this->Auth->user()['id'] !== $id )
+            {
+                return $this->redirect(['action' => 'home']);
+            }
+        }
+
         $user = $this->Users->get($id, [
             'contain' => [
                 'Roles', 
