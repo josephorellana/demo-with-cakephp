@@ -38,30 +38,108 @@
             <ul class="dropdown-menu w-100" id="course-search-result"></ul>
         </div>
 
-        <?php if (!empty($user->enrollments)): ?>
-        <table class="table table-hover table-striped">
-            <tr>
-                <th scope="col">Curso</th>
-                <th scope="col" class="actions">Acciones</th>
-            </tr>
-            <?php foreach ($user->enrollments as $enrollment): ?>
-            <tr>
-                <td><?= h($enrollment->course->name) ?></td>
-                <td class="actions">
-                <?= $this->Html->link(
-                    '<i class="bi bi-eye"></i>',
-                    ['controller' => 'Course', 'action' => 'view', $enrollment->course->id],
-                    ['class' => 'btn btn-sm btn-primary', 'title' => 'Ver', 'escape' => false]
-                    ) ?>
-                <?= $this->Form->postLink(
-                    '<i class="bi bi-trash"></i>', 
-                    ['controller' => 'Courses', 'action' => 'deleteEnrollment', 'userId' => $user->id, 'courseId' => $enrollment->course->id], 
-                    ['confirm' => __('¿Está seguro que desa quitar el curso {0}?', $enrollment->course->name), 'class' => 'btn btn-sm btn-danger', 'title' => 'Eliminar', 'escape' => false]
-                    ) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
+        <div id="ajax-replace">
+            <?= $this->element('Users/enrollments_table') ?>
+        </div>
     </div>
 </section>
+
+<div class="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 p-2 mb-5 me-3" style="z-index: 9999;" role="alert" aria-live="assertive" aria-atomic="true" id="toast-message-enroll">
+    <div class="d-flex">
+        <div class="toast-body" id="toast-message-text-enroll">
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    const csrfToken = $('meta[name="csrfToken"]').attr('content');
+
+    $('#course-search').on('keyup', function() {
+        const query = $(this).val();
+        if (query.length > 2) {
+            $.ajax({
+                url: "<?= $this->Url->build(['controller' => 'Courses', 'action' => 'searchCourse']) ?>",
+                type: "GET",
+                data: { search: query },
+                dataType: "json",
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                success: function(data) {
+                    let html = '';
+                    if (data.length > 0) {
+                        data.forEach(function(course) {
+                            html += `<li><div class="row"><div class="col"><a class="dropdown-item disabled" href="#">${course.name}</a></div><div class="col text-end"><button class="btn btn-sm btn-success enroll-user me-3" data-id="${course.id}"><i class="bi bi-plus"></i> Agregar</button></div></div></li>`;
+                        });
+                    } else {
+                        html += '<li><a class="dropdown-item disabled" href="#">No se encontraron resultados</a></li>';
+                    }
+                    $('#course-search-result').html(html).addClass('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en AJAX:", status, error);
+                },
+            });
+        } else {
+            $('#course-search-result').html('').removeClass('show');
+        }
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown').length) {
+            $('#course-search-result').removeClass('show');
+            $('#course-search').val('');
+        }
+    });
+
+    $(document).on('click', '.enroll-user', function(e){
+        const id = $(this).data('id');
+        if( id ) {
+            $.ajax({
+                url: "<?= $this->Url->build(['controller' => 'Courses', 'action' => 'enroll']) ?>",
+                type: "GET",
+                data: {
+                    userId: "<?= h($user->id) ?>",
+                    courseId: id
+                 },
+                dataType: "json",
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                success: function(data) {
+                    if( data ) {
+                        let toast = $('#toast-message-enroll');
+                        $('#toast-message-text-enroll').text(data.message);
+                        toast.removeClass('text-bg-success');
+                        toast.removeClass('text-bg-danger');
+                        toast.addClass('text-bg-' + data.type);
+                        toast = document.getElementById('toast-message-enroll');
+                        if (toast) {
+                            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+                            toastBootstrap.show();
+                        }
+                        $('#course-search-result').removeClass('show');
+                        $('#course-search').val('');
+                        $.ajax({
+                            url: "<?= $this->Url->build(['controller' => 'Users', 'action' => 'getEnrollmentCourses']) ?>",
+                            type: "GET",
+                            data: { id: "<?= h($user->id) ?>" },
+                            headers: {
+                                'X-CSRF-Token': csrfToken
+                            },
+                            success: function(response) {
+                                $('#ajax-replace').html(response);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("Error en AJAX:", status, error);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+});
+</script>

@@ -155,6 +155,27 @@ class UsersController extends AppController
     }
 
 
+    public function getEnrollmentCourses()
+    {
+        if( $this->request->is('ajax') )
+        {
+            $id = $this->request->getQuery('id');
+            if( $id )
+            {
+                $user = $this->Users->get($id, [
+                    'contain' => [
+                        'Roles', 
+                        'Enrollments' => ['Courses']
+                    ],
+                ]);
+        
+                $this->set('user', $user);
+            }
+            return $this->render('/Element/Users/enrollments_table');
+        }
+    }
+
+
     public function searchStudent()
     {
         $this->autoRender = false;

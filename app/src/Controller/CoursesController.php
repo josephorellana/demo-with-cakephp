@@ -234,4 +234,28 @@ class CoursesController extends AppController
             return $this->render('/Element/Courses/enrollments_table');
         }
     }
+
+    public function searchCourse()
+    {
+        $this->autoRender = false;
+
+        if ($this->request->is('ajax')) {
+            $query = $this->request->getQuery('search');
+
+            $this->loadModel('Courses');
+            $courses = $this->Courses->find('all', [
+                'conditions' => [
+                            'AND' => [
+                                'Courses.name LIKE' => '%' . $query . '%',
+                                'Courses.delete_at IS' => null,
+                                'Courses.is_enabled' => 1,
+                            ]
+                        ]
+            ])->toArray();
+
+            return $this->response
+                ->withType('application/json')
+                ->withStringBody(json_encode($courses));
+        }
+    }
 }
