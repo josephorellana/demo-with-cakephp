@@ -82,6 +82,9 @@ class AppController extends Controller
     }
 
 
+    /**
+     * Load authenticated user data
+     */
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
@@ -91,6 +94,9 @@ class AppController extends Controller
     }
 
 
+    /**
+     * Define primary rule for authorization
+     */
     public function isAuthorized($user)
     {
         if ( !empty($user['role']['name']) && $user['role']['name'] === 'ADMIN' )

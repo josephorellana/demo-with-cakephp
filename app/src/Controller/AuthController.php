@@ -13,6 +13,9 @@ class AuthController extends AppController
     }
 
 
+    /**
+     * Rules for authorization
+     */
     public function isAuthorized($user)
     {
         if ( !empty($user['role']['name']) && $user['role']['name'] === 'USER' )
@@ -26,6 +29,10 @@ class AuthController extends AppController
         return parent::isAuthorized($user);
     }
 
+
+    /**
+     * Login user
+     */
     public function login()
     {
         $this->viewBuilder()->setLayout('login');
@@ -41,6 +48,10 @@ class AuthController extends AppController
         }
     }
 
+
+    /**
+     * Logout user
+     */
     public function logout()
     {
         return $this->redirect($this->Auth->logout());

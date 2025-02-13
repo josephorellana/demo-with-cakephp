@@ -13,6 +13,9 @@ use Cake\ORM\TableRegistry;
  */
 class UsersController extends AppController
 {
+    /**
+     * Rules for authorization
+     */
     public function isAuthorized($user)
     {
         if ( !empty($user['role']['name']) && $user['role']['name'] === 'USER' )
@@ -143,6 +146,9 @@ class UsersController extends AppController
     }
 
 
+    /**
+     * Home user
+     */
     public function home()
     {
         $role = $this->Auth->user()['role']['name'];
@@ -197,6 +203,11 @@ class UsersController extends AppController
     }
 
 
+    /**
+     * Search users by ajax
+     * 
+     * @return view element view
+     */
     public function search()
     {
         if ($this->request->is('ajax')) {
@@ -231,6 +242,11 @@ class UsersController extends AppController
     }
 
 
+    /**
+     * Search for courses where the user is enrolled
+     * 
+     * @return view element view
+     */
     public function getEnrollmentCourses()
     {
         if( $this->request->is('ajax') )
@@ -252,6 +268,11 @@ class UsersController extends AppController
     }
 
 
+    /**
+     * Search the students
+     * 
+     * @return json array of users
+     */
     public function searchStudent()
     {
         $this->autoRender = false;

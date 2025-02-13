@@ -13,6 +13,9 @@ use Cake\ORM\TableRegistry;
  */
 class CoursesController extends AppController
 {
+    /**
+     * Rules for authorization
+     */
     public function isAuthorized($user)
     {
         if ( !empty($user['role']['name']) && $user['role']['name'] === 'USER' )
@@ -139,6 +142,11 @@ class CoursesController extends AppController
     }
 
 
+    /**
+     * Search courses for ajax
+     * 
+     * @return view element view
+     */
     public function search()
     {
         if ($this->request->is('ajax')) {
@@ -166,6 +174,11 @@ class CoursesController extends AppController
     }
 
 
+    /**
+     * Enroll user in a course using ajax
+     * 
+     * @return json messeage
+     */
     public function enroll()
     {
         $this->autoRender = false;
@@ -222,6 +235,9 @@ class CoursesController extends AppController
     }
 
 
+    /**
+     * Delete a user enrollment
+     */
     public function deleteEnrollment()
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -254,6 +270,11 @@ class CoursesController extends AppController
     }
 
     
+    /**
+     * Search for users enrolled in the course
+     * 
+     * @return view element view 
+     */
     public function getEnrollmentUsers()
     {
         if( $this->request->is('ajax') )
@@ -271,6 +292,12 @@ class CoursesController extends AppController
         }
     }
 
+
+    /**
+     * Search courses by a criteria
+     * 
+     * @return json array of courses
+     */
     public function searchCourse()
     {
         $this->autoRender = false;

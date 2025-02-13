@@ -134,6 +134,10 @@ class UsersTable extends Table
         $query->where(['delete_at IS' => null]);
     }
 
+
+    /**
+     * Clean fields
+     */
     public function beforeMarshal($event, $data, $options)
     {
         foreach ($data as $key => $value) {
@@ -144,6 +148,9 @@ class UsersTable extends Table
     }
 
 
+    /**
+     * Finder for authentication
+     */
     public function findAuth(\Cake\ORM\Query $query, array $options)
     {
         return $query->select([
