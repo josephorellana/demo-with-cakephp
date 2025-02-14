@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
+use Cake\Core\Configure;
 
 /**
  * Error Handling Controller
@@ -53,6 +54,12 @@ class ErrorController extends AppController
      */
     public function beforeRender(Event $event)
     {
+        // Redirection in production environment when there are errors
+        if (!Configure::read('debug'))
+        {
+            return $this->redirect(['controller' => 'Users', 'action' => 'home']);
+        }
+
         parent::beforeRender($event);
 
         $this->viewBuilder()->setTemplatePath('Error');
