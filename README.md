@@ -5,7 +5,7 @@ This is a demo application using CakePHP
 
 To try a demo of the application, go to:
 
-[cakephp.josephorellana.net](http://cakephp.josephorellana.net)
+[cakephp.josephorellana.net](https://cakephp.josephorellana.net)
 
 Use the credentials:
 
@@ -36,6 +36,7 @@ The database model diagram is as follow
 Install a **MariaDB** instance and follow de next steps:
 
 - Login as database root user
+
 ```
 $ mysql -u root -p
 ```
@@ -65,24 +66,13 @@ $ mysql -u root -p database_name < /path/to/demo_with_cakephp.sql
 
 ### Application
 
-- Rename app/config/app.default.php file to app/config/app.php
+- Install composer on your operating system
 
-- In a terminal with an operating system with php installed, run the command
-
-```
-$ php -r "echo bin2hex(random_bytes(32)) . PHP_EOL;"
-```
-
-- Copy result_string and modify the app/config/app.php file by replacing
+- In a terminal go to the **app** directory and install de dependencies of the project
 
 ```
-'salt' => env('SECURITY_SALT', '__SALT__'),
-```
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with
-
-```
-'salt' => env('SECURITY_SALT', 'result_string'),
+$ cd /path/to/app
+$ composer install
 ```
 
 - Modify the app/config/app.php file with the data from the previously created database
