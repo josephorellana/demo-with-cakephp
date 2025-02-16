@@ -17,24 +17,24 @@
     <div class="card-block">
         <table cellpadding="0" cellspacing="0" class="table table-striped">
             <thead>
-                <tr>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('name', 'Nombre') ?></th>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('paternal_last_name', 'Apellido paterno') ?></th>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('maternal_last_name', 'Apellido materno') ?></th>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('email', 'Correo electrónico') ?></th>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('is_active', 'Activo') ?></th>
-                    <th scope="col" class="actions text-center">Acciones</th>
+                <tr class="row">
+                    <th scope="col" class="text-center col"><?= $this->Paginator->sort('name', 'Nombre') ?></th>
+                    <th scope="col" class="text-center col"><?= $this->Paginator->sort('paternal_last_name', 'Apellido paterno') ?></th>
+                    <th scope="col" class="text-center col"><?= $this->Paginator->sort('maternal_last_name', 'Apellido materno') ?></th>
+                    <th scope="col" class="text-center col-sm-3"><?= $this->Paginator->sort('email', 'Correo electrónico') ?></th>
+                    <th scope="col" class="text-center col"><?= $this->Paginator->sort('is_active', 'Activo') ?></th>
+                    <th scope="col" class="actions text-center col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?= h($user->name) ?></td>
-                    <td><?= h($user->paternal_last_name) ?></td>
-                    <td><?= h($user->maternal_last_name) ?></td>
-                    <td><?= h($user->email) ?></td>
-                    <td class="text-center"><?= ($user->is_active) ? '<span class="badge text-bg-success">Activo</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
-                    <td class="actions text-center">
+                <tr class="row">
+                    <td class="col"><?= h($user->name) ?></td>
+                    <td class="col"><?= h($user->paternal_last_name) ?></td>
+                    <td class="col"><?= h($user->maternal_last_name) ?></td>
+                    <td class="col-sm-3"><?= h($user->email) ?></td>
+                    <td class="text-center col"><?= ($user->is_active) ? '<span class="badge text-bg-success">Activo</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
+                    <td class="actions text-center col">
                         <?= $this->Html->link(
                             '<i class="bi bi-eye"></i>',
                             ['action' => 'view', $user->id],
