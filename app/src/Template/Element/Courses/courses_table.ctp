@@ -9,7 +9,7 @@
                     Mostrando <?= h($totalCourses) ?> registros
                 <?php endif; ?>
             </span>
-            <div class="col-4 text-end">
+        <div class="col-4 text-end">
             <?= $this->Html->link('<i class="bi bi-plus"></i> Agregar Curso', ['controller' => 'Courses', 'action' => 'add'], ['escape' => false, 'class' => 'btn btn-sm btn-success']) ?>
             </div>
         </div>
@@ -17,22 +17,22 @@
     <div class="card-block">
         <table cellpadding="0" cellspacing="0" class="table table-striped">
             <thead>
-                <tr>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('name', 'Curso') ?></th>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('start_date', 'Fecha de inicio') ?></th>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('end_date', 'Fecha de término') ?></th>
-                    <th scope="col" class="text-center"><?= $this->Paginator->sort('is_enabled', 'Habilitado') ?></th>
-                    <th scope="col" class="actions text-center">Acciones</th>
+                <tr class="row">
+                    <th scope="col" class="text-center col"><?= $this->Paginator->sort('name', 'Curso') ?></th>
+                    <th scope="col" class="text-center col"><?= $this->Paginator->sort('start_date', 'Fecha de inicio') ?></th>
+                    <th scope="col" class="text-center col"><?= $this->Paginator->sort('end_date', 'Fecha de término') ?></th>
+                    <th scope="col" class="text-center col-sm-3"><?= $this->Paginator->sort('is_enabled', 'Habilitado') ?></th>
+                    <th scope="col" class="actions text-center col-sm-2">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($courses as $course): ?>
-                <tr>
-                    <td><?= h($course->name) ?></td>
-                    <td class="text-center"><?= (!empty($course->start_date)) ? date('d-m-Y', strtotime($course->start_date)) : '-' ?></td>
-                    <td class="text-center"><?= (!empty($course->end_date)) ? date('d-m-Y', strtotime($course->end_date)) : '-' ?></td>
-                    <td class="text-center"><?= ($course->is_enabled) ? '<span class="badge text-bg-success">Habilitado</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
-                    <td class="actions text-center">
+                <tr class="row">
+                    <td class="col"><?= h($course->name) ?></td>
+                    <td class="text-center col"><?= (!empty($course->start_date)) ? date('d-m-Y', strtotime($course->start_date)) : '-' ?></td>
+                    <td class="text-center col"><?= (!empty($course->end_date)) ? date('d-m-Y', strtotime($course->end_date)) : '-' ?></td>
+                    <td class="text-center col-sm-3"><?= ($course->is_enabled) ? '<span class="badge text-bg-success">Habilitado</span>': '<span class="badge text-bg-secondary">Deshabilitado</span>' ?></td>
+                    <td class="actions text-center col-sm-2">
                         <?= $this->Html->link(
                             '<i class="bi bi-eye"></i>',
                             ['action' => 'view', $course->id],
