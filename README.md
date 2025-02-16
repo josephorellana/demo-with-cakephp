@@ -1,5 +1,7 @@
 # Demo With CakePHP
-This is a demo application using CakePHP
+This is a demo MVC application using CakePHP 3.8.
+
+This application allows you to create users, courses and enroll users in courses.
 
 ## Demo
 
